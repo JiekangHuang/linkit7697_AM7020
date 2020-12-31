@@ -1,0 +1,377 @@
+<xml xmlns="http://www.w3.org/1999/xhtml">
+  <block type="board_initializes_setup" id="25" x="655" y="91">
+    <field name="BOARD_TYPE">7697</field>
+    <statement name="CONTENT">
+      <block type="variables_set" id="26" inline="true">
+        <field name="TYPE">Number</field>
+        <field name="VAR">red</field>
+        <value name="VALUE">
+          <block type="math_number" id="27">
+            <field name="NUM">0</field>
+          </block>
+        </value>
+        <next>
+          <block type="variables_set" id="28" inline="true">
+            <field name="TYPE">Number</field>
+            <field name="VAR">green</field>
+            <value name="VALUE">
+              <block type="math_number" id="29">
+                <field name="NUM">0</field>
+              </block>
+            </value>
+            <next>
+              <block type="variables_set" id="30" inline="true">
+                <field name="TYPE">Number</field>
+                <field name="VAR">blue</field>
+                <value name="VALUE">
+                  <block type="math_number" id="31">
+                    <field name="NUM">0</field>
+                  </block>
+                </value>
+                <next>
+                  <block type="variables_set" id="32" inline="true">
+                    <field name="TYPE">Unsigned_Long</field>
+                    <field name="VAR">timer</field>
+                    <value name="VALUE">
+                      <block type="math_number" id="33">
+                        <field name="NUM">0</field>
+                      </block>
+                    </value>
+                    <next>
+                      <block type="serial_init" id="34">
+                        <field name="SPEED">115200</field>
+                        <next>
+                          <block type="neopixel_begin" id="35">
+                            <field name="NUM">8</field>
+                            <field name="PIN">3</field>
+                            <field name="BRIGHTNESS">255</field>
+                            <next>
+                              <block type="am7020_init" id="36">
+                                <field name="BAUDRATE">115200</field>
+                                <field name="RESET_PIN">5</field>
+                                <next>
+                                  <block type="am7020_connect" id="37">
+                                    <field name="APN">twm.nbiot</field>
+                                    <next>
+                                      <block type="am7020_connect_mqtt" id="38" inline="false">
+                                        <value name="BROKER">
+                                          <block type="text" id="39">
+                                            <field name="TEXT">io.adafruit.com</field>
+                                          </block>
+                                        </value>
+                                        <value name="PORT">
+                                          <block type="math_number" id="40">
+                                            <field name="NUM">1883</field>
+                                          </block>
+                                        </value>
+                                        <value name="ID">
+                                          <block type="text" id="41">
+                                            <field name="TEXT">20201230_Linkit7697_am7020_MQTTID</field>
+                                          </block>
+                                        </value>
+                                        <value name="USERNAME">
+                                          <block type="text" id="42">
+                                            <field name="TEXT">Zack_Huang</field>
+                                          </block>
+                                        </value>
+                                        <value name="PASSWORD">
+                                          <block type="text" id="43">
+                                            <field name="TEXT">aio_qQhJ15jmJvXDwRPYkIjQhrSJuGGo</field>
+                                          </block>
+                                        </value>
+                                        <value name="KEEPALIVE">
+                                          <block type="math_number" id="44">
+                                            <field name="NUM">290</field>
+                                          </block>
+                                        </value>
+                                        <next>
+                                          <block type="am7020_subscribe_mqtt" id="45" inline="true">
+                                            <value name="TOPIC">
+                                              <block type="text" id="46">
+                                                <field name="TEXT">Zack_Huang/feeds/linkit7697.red</field>
+                                              </block>
+                                            </value>
+                                            <next>
+                                              <block type="am7020_subscribe_mqtt" id="47" inline="true">
+                                                <value name="TOPIC">
+                                                  <block type="text" id="48">
+                                                    <field name="TEXT">Zack_Huang/feeds/linkit7697.green</field>
+                                                  </block>
+                                                </value>
+                                                <next>
+                                                  <block type="am7020_subscribe_mqtt" id="49" inline="true">
+                                                    <value name="TOPIC">
+                                                      <block type="text" id="50">
+                                                        <field name="TEXT">Zack_Huang/feeds/linkit7697.blue</field>
+                                                      </block>
+                                                    </value>
+                                                  </block>
+                                                </next>
+                                              </block>
+                                            </next>
+                                          </block>
+                                        </next>
+                                      </block>
+                                    </next>
+                                  </block>
+                                </next>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+    <next>
+      <block type="initializes_loop" id="51">
+        <statement name="CONTENT">
+          <block type="controls_if" id="52" inline="false">
+            <value name="IF0">
+              <block type="logic_negate" id="53" inline="false">
+                <value name="BOOL">
+                  <block type="am7020_connected" id="54"></block>
+                </value>
+              </block>
+            </value>
+            <statement name="DO0">
+              <block type="am7020_reconnect" id="55"></block>
+            </statement>
+            <next>
+              <block type="controls_if" id="56" inline="false">
+                <value name="IF0">
+                  <block type="logic_negate" id="57" inline="false">
+                    <value name="BOOL">
+                      <block type="am7020_mqtt_connected" id="58"></block>
+                    </value>
+                  </block>
+                </value>
+                <statement name="DO0">
+                  <block type="am7020_mqtt_reconnect" id="59"></block>
+                </statement>
+                <next>
+                  <block type="controls_if" id="60" inline="false">
+                    <value name="IF0">
+                      <block type="logic_compare" id="61" inline="true">
+                        <field name="OP">GT</field>
+                        <value name="A">
+                          <block type="millis" id="62"></block>
+                        </value>
+                        <value name="B">
+                          <block type="variables_get" id="63">
+                            <field name="TYPE">Unsigned_Long</field>
+                            <field name="VAR">timer</field>
+                          </block>
+                        </value>
+                      </block>
+                    </value>
+                    <statement name="DO0">
+                      <block type="variables_set" id="64" inline="true">
+                        <field name="TYPE">Unsigned_Long</field>
+                        <field name="VAR">timer</field>
+                        <value name="VALUE">
+                          <block type="math_arithmetic" id="65" inline="true">
+                            <field name="OP">ADD</field>
+                            <value name="A">
+                              <block type="millis" id="66"></block>
+                            </value>
+                            <value name="B">
+                              <block type="math_number" id="67">
+                                <field name="NUM">60000</field>
+                              </block>
+                            </value>
+                          </block>
+                        </value>
+                        <next>
+                          <block type="am7020_publish_mqtt" id="68" inline="true">
+                            <value name="TOPIC">
+                              <block type="text" id="69">
+                                <field name="TEXT">Zack_Huang/feeds/linkit7697.temperature</field>
+                              </block>
+                            </value>
+                            <value name="MESSAGE">
+                              <block type="dht_read" id="70">
+                                <field name="SENSOR">DHT11</field>
+                                <field name="PIN">2</field>
+                                <field name="TYPE">C</field>
+                              </block>
+                            </value>
+                            <next>
+                              <block type="am7020_publish_mqtt" id="71" inline="true">
+                                <value name="TOPIC">
+                                  <block type="text" id="72">
+                                    <field name="TEXT">Zack_Huang/feeds/linkit7697.humidity</field>
+                                  </block>
+                                </value>
+                                <value name="MESSAGE">
+                                  <block type="dht_read" id="73">
+                                    <field name="SENSOR">DHT11</field>
+                                    <field name="PIN">2</field>
+                                    <field name="TYPE">h</field>
+                                  </block>
+                                </value>
+                              </block>
+                            </next>
+                          </block>
+                        </next>
+                      </block>
+                    </statement>
+                    <next>
+                      <block type="am7020_mqtt_handle" id="74"></block>
+                    </next>
+                  </block>
+                </next>
+              </block>
+            </next>
+          </block>
+        </statement>
+      </block>
+    </next>
+  </block>
+  <block type="am7020_mqtt_event" id="75" x="1213" y="138">
+    <statement name="MSG_TOPIC_EQAL">
+      <block type="controls_if" id="76" inline="false">
+        <mutation elseif="2" else="1"></mutation>
+        <value name="IF0">
+          <block type="logic_compare" id="77" inline="true">
+            <field name="OP">EQ</field>
+            <value name="A">
+              <block type="am7020_mqtt_received_topic" id="78"></block>
+            </value>
+            <value name="B">
+              <block type="text" id="79">
+                <field name="TEXT">Zack_Huang/feeds/linkit7697.red</field>
+              </block>
+            </value>
+          </block>
+        </value>
+        <statement name="DO0">
+          <block type="variables_set" id="80" inline="true">
+            <field name="TYPE">Number</field>
+            <field name="VAR">red</field>
+            <value name="VALUE">
+              <block type="convert_str_int" id="81" inline="true">
+                <value name="MY_VAR">
+                  <block type="am7020_mqtt_received_msg" id="82"></block>
+                </value>
+              </block>
+            </value>
+          </block>
+        </statement>
+        <value name="IF1">
+          <block type="logic_compare" id="83" inline="true">
+            <field name="OP">EQ</field>
+            <value name="A">
+              <block type="am7020_mqtt_received_topic" id="84"></block>
+            </value>
+            <value name="B">
+              <block type="text" id="85">
+                <field name="TEXT">Zack_Huang/feeds/linkit7697.green</field>
+              </block>
+            </value>
+          </block>
+        </value>
+        <statement name="DO1">
+          <block type="variables_set" id="86" inline="true">
+            <field name="TYPE">Number</field>
+            <field name="VAR">green</field>
+            <value name="VALUE">
+              <block type="convert_str_int" id="87" inline="true">
+                <value name="MY_VAR">
+                  <block type="am7020_mqtt_received_msg" id="88"></block>
+                </value>
+              </block>
+            </value>
+          </block>
+        </statement>
+        <value name="IF2">
+          <block type="logic_compare" id="89" inline="true">
+            <field name="OP">EQ</field>
+            <value name="A">
+              <block type="am7020_mqtt_received_topic" id="90"></block>
+            </value>
+            <value name="B">
+              <block type="text" id="91">
+                <field name="TEXT">Zack_Huang/feeds/linkit7697.blue</field>
+              </block>
+            </value>
+          </block>
+        </value>
+        <statement name="DO2">
+          <block type="variables_set" id="92" inline="true">
+            <field name="TYPE">Number</field>
+            <field name="VAR">blue</field>
+            <value name="VALUE">
+              <block type="convert_str_int" id="93" inline="true">
+                <value name="MY_VAR">
+                  <block type="am7020_mqtt_received_msg" id="94"></block>
+                </value>
+              </block>
+            </value>
+          </block>
+        </statement>
+        <statement name="ELSE">
+          <block type="serial_println" id="95" inline="false">
+            <value name="CONTENT">
+              <block type="text" id="96">
+                <field name="TEXT">unknown topic</field>
+              </block>
+            </value>
+          </block>
+        </statement>
+        <next>
+          <block type="controls_for" id="97" inline="true">
+            <field name="VAR">i</field>
+            <value name="FROM">
+              <block type="math_number" id="98">
+                <field name="NUM">0</field>
+              </block>
+            </value>
+            <value name="TO">
+              <block type="math_number" id="99">
+                <field name="NUM">8</field>
+              </block>
+            </value>
+            <statement name="DO">
+              <block type="neopixel_custom_setpixelcolor" id="100" inline="true">
+                <value name="TARGET">
+                  <block type="variables_get" id="101">
+                    <field name="TYPE">Number</field>
+                    <field name="VAR">i</field>
+                  </block>
+                </value>
+                <value name="R">
+                  <block type="variables_get" id="102">
+                    <field name="TYPE">Number</field>
+                    <field name="VAR">red</field>
+                  </block>
+                </value>
+                <value name="G">
+                  <block type="variables_get" id="103">
+                    <field name="TYPE">Number</field>
+                    <field name="VAR">green</field>
+                  </block>
+                </value>
+                <value name="B">
+                  <block type="variables_get" id="104">
+                    <field name="TYPE">Number</field>
+                    <field name="VAR">blue</field>
+                  </block>
+                </value>
+              </block>
+            </statement>
+            <next>
+              <block type="neopixel_show" id="105"></block>
+            </next>
+          </block>
+        </next>
+      </block>
+    </statement>
+  </block>
+</xml>
