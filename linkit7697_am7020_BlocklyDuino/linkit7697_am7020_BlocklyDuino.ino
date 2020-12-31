@@ -3,7 +3,7 @@
  *
  * https://github.com/MediaTek-Labs/BlocklyDuino-for-LinkIt
  *
- * Date: Thu, 31 Dec 2020 04:50:55 GMT
+ * Date: Thu, 31 Dec 2020 05:06:19 GMT
  */
 
 /*
@@ -53,8 +53,8 @@ void nbConnect(void)
 const char* broker = "io.adafruit.com";
 const int port = 1883;
 const char* mqtt_id = "20201230_Linkit7697_am7020_MQTTID";
-const char* mqtt_username = "Zack_Huang";
-const char* mqtt_password = "aio_qQhJ15jmJvXDwRPYkIjQhrSJuGGo";
+const char* mqtt_username = "<YOUR USERNAME>";
+const char* mqtt_password = "<YOUR AIO KEY>";
 
 String topic_buff;
 
@@ -90,12 +90,12 @@ void mqttCallback(char *topic, byte *payload, unsigned int len)
     Serial.print(F("]: "));
     Serial.println(msg_buff);
 
-  if (topic_buff == "Zack_Huang/feeds/linkit7697.red") {
+  if (topic_buff == "<YOUR USERNAME>/feeds/linkit7697.red") {
     red = String(msg_buff).toInt();
 
-  } else if (topic_buff == "Zack_Huang/feeds/linkit7697.green") {
+  } else if (topic_buff == "<YOUR USERNAME>/feeds/linkit7697.green") {
     green = String(msg_buff).toInt();
-  } else if (topic_buff == "Zack_Huang/feeds/linkit7697.blue") {
+  } else if (topic_buff == "<YOUR USERNAME>/feeds/linkit7697.blue") {
     blue = String(msg_buff).toInt();
   } else {
     Serial.println("unknown topic");
@@ -134,9 +134,9 @@ void setup()
   timer = 0;
   nbConnect();
   mqttConnect();
-  mqttClient.subscribe(String("Zack_Huang/feeds/linkit7697.red").c_str());
-  mqttClient.subscribe(String("Zack_Huang/feeds/linkit7697.green").c_str());
-  mqttClient.subscribe(String("Zack_Huang/feeds/linkit7697.blue").c_str());
+  mqttClient.subscribe(String("<YOUR USERNAME>/feeds/linkit7697.red").c_str());
+  mqttClient.subscribe(String("<YOUR USERNAME>/feeds/linkit7697.green").c_str());
+  mqttClient.subscribe(String("<YOUR USERNAME>/feeds/linkit7697.blue").c_str());
   dht11_p2.begin();
 }
 
@@ -153,8 +153,8 @@ void loop()
   }
   if (millis() > timer) {
     timer = millis() + 60000;
-    mqttClient.publish(String("Zack_Huang/feeds/linkit7697.temperature").c_str(), String(dht11_p2.readTemperature()).c_str());
-    mqttClient.publish(String("Zack_Huang/feeds/linkit7697.humidity").c_str(), String(dht11_p2.readHumidity()).c_str());
+    mqttClient.publish(String("<YOUR USERNAME>/feeds/linkit7697.temperature").c_str(), String(dht11_p2.readTemperature()).c_str());
+    mqttClient.publish(String("<YOUR USERNAME>/feeds/linkit7697.humidity").c_str(), String(dht11_p2.readHumidity()).c_str());
 
   }
   mqttClient.loop();
